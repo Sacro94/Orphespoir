@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orphespoir - Soutenir les Orphelinats, Changer des Vies</title>
+    <style>
+        /* Ajoutez vos styles CSS ici */
+        /* ... */
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Orphespoir</h1>
+        <p>Ensemble, Nous Pouvons Faire une Différence</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">À Propos de Nous</a></li>
+            <li><a href="#orphans">Orphelinats</a></li>
+        </ul>
+    </nav>
+
+    <section id="about">
+        <h2>À Propos d'Orphespoir à Rabat</h2>
+        <p>Orphespoir est une communauté dédiée à soutenir les orphelinats à Rabat et à apporter de l'espoir dans la vie des enfants orphelins. Notre équipe à Rabat travaille chaque jour pour répondre aux besoins urgents de ces enfants et pour créer un avenir meilleur pour eux.</p>
+    </section>
+
+    <section id="orphans">
+        <h2>Orphelinats en Besoin</h2>
+        <div>
+            <label for="search">Rechercher des Besoins :</label>
+            <input type="text" id="search" oninput="searchOrphanages()" placeholder="Rechercher par besoin...">
+        </div>
+        <ul id="orphans-list"></ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Orphespoir. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        const orphanages = [
+            { name: "Orphelinat A", needs: ["Soutien Scolaire", "Soins de Santé"] },
+            { name: "Orphelinat B", needs: ["Soins de Santé", "Hébergement"] },
+            { name: "Orphelinat C", needs: ["Hébergement", "Vêtements"] }
+            // Ajoutez plus d'orphelinats au besoin
+        ];
+
+        // Fonction pour trier les orphelinats en fonction des besoins pressants
+        function sortOrphanagesByNeeds() {
+            const priority = { "Soutien Scolaire": 3, "Soins de Santé": 2, "Hébergement": 1, "Vêtements": 0 };
+            return orphanages.sort((a, b) => {
+                const aPriority = Math.max(...a.needs.map(need => priority[need]));
+                const bPriority = Math.max(...b.needs.map(need => priority[need]));
+                return bPriority - aPriority;
+            });
+        }
+
+        function displayOrphanages(orphanageList) {
+            const orphanList = document.getElementById("orphans-list");
+            orphanList.innerHTML = "";
+            orphanageList.forEach(orphanage => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${orphanage.name} - Besoins : ${orphanage.needs.join(", ")}`;
+                orphanList.appendChild(listItem);
+            });
+        }
+
+        function searchOrphanages() {
+            const searchTerm = document.getElementById("search").value.toLowerCase();
+            const filteredOrphanages = orphanages.filter(orphanage => orphanage.needs.join(" ").toLowerCase().includes(searchTerm));
+            displayOrphanages(filteredOrphanages);
+        }
+
+        window.onload = function () {
+            const sortedOrphanages = sortOrphanagesByNeeds();
+            displayOrphanages(sortedOrphanages);
+        };
+    </script>
+</body>
+
+</html>
